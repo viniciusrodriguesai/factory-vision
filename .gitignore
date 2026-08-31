@@ -216,3 +216,19 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Factory Vision - local environments and Python artifacts
+.venv/
+venv/
+__pycache__/
+*.pyc
+.env
+
+# Factory Vision - videos and private company data
+*.mp4
+*.avi
+*.mov
+*.mkv
+data/private/
+credentials/
+secrets/
