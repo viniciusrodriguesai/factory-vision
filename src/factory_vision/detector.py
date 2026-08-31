@@ -74,31 +74,30 @@ class ObjectDetector:
                 device="cpu",
                 verbose=False,
             )
+            if not results:
+                return []
+
+            result = results[0]
+            if result.boxes is None:
+                return []
+
+            detections: list[Detection] = []
+            for x1, y1, x2, y2, confidence, class_id in (
+                result.boxes.data.cpu().tolist()
+            ):
+                class_id = int(class_id)
+                detections.append(
+                    Detection(
+                        x1=float(x1),
+                        y1=float(y1),
+                        x2=float(x2),
+                        y2=float(y2),
+                        confidence=float(confidence),
+                        class_id=class_id,
+                        class_name=str(result.names[class_id]),
+                    )
+                )
+
+            return detections
         except Exception as error:
             raise DetectionError("Falha ao executar a detecção no frame.") from error
-
-        if not results:
-            return []
-
-        result = results[0]
-        if result.boxes is None:
-            return []
-
-        detections: list[Detection] = []
-        for x1, y1, x2, y2, confidence, class_id in (
-            result.boxes.data.cpu().tolist()
-        ):
-            class_id = int(class_id)
-            detections.append(
-                Detection(
-                    x1=float(x1),
-                    y1=float(y1),
-                    x2=float(x2),
-                    y2=float(y2),
-                    confidence=float(confidence),
-                    class_id=class_id,
-                    class_name=str(result.names[class_id]),
-                )
-            )
-
-        return detections

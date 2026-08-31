@@ -2,6 +2,7 @@
 
 import argparse
 from collections.abc import Sequence
+
 import cv2
 
 from .detector import (
@@ -19,15 +20,16 @@ WINDOW_NAME = "Factory Vision v0.0.2"
 def play_video(video_path: str, model_path: str, confidence: float) -> int:
     """Detecta objetos em um vídeo até o fim ou até a tecla Q."""
     try:
-        detector = ObjectDetector(model_path, confidence)
-    except (ValueError, FileNotFoundError, ModelLoadError) as error:
+        reader = VideoReader(video_path)
+        reader.open()
+    except (ValueError, FileNotFoundError, VideoOpenError) as error:
         print(f"Erro: {error}")
         return 1
 
     try:
-        reader = VideoReader(video_path)
-        reader.open()
-    except (ValueError, FileNotFoundError, VideoOpenError) as error:
+        detector = ObjectDetector(model_path, confidence)
+    except (ValueError, FileNotFoundError, ModelLoadError) as error:
+        reader.release()
         print(f"Erro: {error}")
         return 1
 

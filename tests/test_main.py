@@ -54,6 +54,23 @@ def test_main_passes_cli_arguments_to_pipeline() -> None:
     playback.assert_called_once_with("video.mp4", "model.pt", 0.65)
 
 
+def test_pipeline_releases_video_when_model_cannot_be_loaded() -> None:
+    reader = Mock()
+
+    with (
+        patch("src.factory_vision.main.VideoReader", return_value=reader),
+        patch(
+            "src.factory_vision.main.ObjectDetector",
+            side_effect=FileNotFoundError("modelo ausente"),
+        ),
+    ):
+        exit_code = play_video("video.mp4", "missing.pt", 0.50)
+
+    assert exit_code == 1
+    reader.open.assert_called_once_with()
+    reader.release.assert_called_once_with()
+
+
 def test_pipeline_processes_artificial_frame_without_opening_window() -> None:
     frame = np.zeros((80, 120, 3), dtype=np.uint8)
     reader = Mock()
