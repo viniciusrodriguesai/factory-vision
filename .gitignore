@@ -229,6 +229,7 @@ __pycache__/
 *.avi
 *.mov
 *.mkv
-data/private/
+data/private/*
+!data/private/README.md
 credentials/
 secrets/
