@@ -26,7 +26,7 @@ class DetectionError(RuntimeError):
     """Indica uma falha durante a inferência em um frame."""
 
 
-def validate_confidence(confidence: float) -> float:
+def validate_confidence(confidence: float | str) -> float:
     """Valida e normaliza um limiar de confiança entre zero e um."""
     try:
         value = float(confidence)

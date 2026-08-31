@@ -1,7 +1,14 @@
-"""Factory Vision: base para processamento de vídeo industrial."""
+"""Factory Vision: detecção de objetos em vídeos industriais."""
 
+from .detector import Detection, ObjectDetector
 from .video_reader import VideoOpenError, VideoReader
 
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 
-__all__ = ["VideoOpenError", "VideoReader", "__version__"]
+__all__ = [
+    "Detection",
+    "ObjectDetector",
+    "VideoOpenError",
+    "VideoReader",
+    "__version__",
+]

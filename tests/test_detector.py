@@ -66,7 +66,7 @@ def test_rejects_confidence_outside_range(confidence: float) -> None:
 
 def test_rejects_non_numeric_confidence() -> None:
     with pytest.raises(ValueError, match="número entre 0 e 1"):
-        validate_confidence("invalid")  # type: ignore[arg-type]
+        validate_confidence("invalid")
 
 
 def test_reports_missing_model(tmp_path: Path) -> None:
